@@ -4,13 +4,20 @@ from sqlalchemy import Column, Integer, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import pymysql
-
+import os
+from .config import settings 
 # --- FastAPI app ---
 app = FastAPI()
 
+
 # --- Database connection (MySQL) ---
-DATABASE_URL = "mysql+pymysql://root:Chinnari%4013@localhost/fastapi_app"
-engine = create_engine(DATABASE_URL, echo=True)  # echo=True to see SQL logs
+DATABASE_URL = os.getenv("DATABASE_URL")
+from sqlalchemy import create_engine
+
+
+engine = create_engine(settings.DATABASE_URL, echo=True)
+
+ # echo=True to see SQL logs
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
